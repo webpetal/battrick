@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Battrick Squad
 // @namespace    https://github.com/webpetal/battrick
-// @version      0.4
+// @version      0.5
 // @description  Improve squad page for battrick!
 // @author       Webpetal
 // @match        https://www.battrick.org/nl/squad.asp*
@@ -36,7 +36,7 @@
      var min_wk_score = 10;
      var wk_sec_weightage = 50; //in percentage. Importance of fielding in wicketkeeper
      var wk_stamina_weightage = 20; //in percentage. Importance of stamina in wicketkeeper
-     var wk_batting_weightage = 40; //in percentage. Importance of batting in wicketkeeper
+     var wk_batting_weightage = 30; //in percentage. Importance of batting in wicketkeeper
      
 
 
@@ -98,7 +98,7 @@
             player_concentration : playerconcentration,
             player_bowling : playerbowling,
             player_consistency : playerconsistency,
-            player_keeping : playerkeeping,
+            player_keeping : playerkeeper,
             player_fielding :playerfielding,
 
             //calculated value
@@ -123,8 +123,8 @@
             $(this).append('<div id="tip6" class="skills"></div>');
             $(this).find('#tip6').append('<span class="skillname '+ batmanclass+'">Batting Score:</span><span class="player_batting_score '+ batmanclass+'">'+ batman.toFixed(2) +'</span>');
             $(this).find('#tip6').append('<span class="skillname '+ bowlerclass+'">Bowling Score:</span><span class="player_bowling_score '+ bowlerclass+'">'+ bowler.toFixed(2) +'</span>');
-            $(this).find('#tip6').append('<span class="skillname '+ captainclass+'">Leadership Score:</span><span class="player_bowling_score '+ captainclass+'">'+ captain.toFixed(2) +'</span>');
-            $(this).find('#tip6').append('<span class="skillname '+ wkclass+'">Wicketkeeper Score:</span><span class="player_wp_score '+ wkclass+'">'+ wk.toFixed(2) +'</span>');
+            $(this).find('#tip6').append('<span class="skillname '+ captainclass+'">Captain Score:</span><span class="player_bowling_score '+ captainclass+'">'+ captain.toFixed(2) +'</span>');
+            $(this).find('#tip6').append('<span class="skillname '+ wkclass+'">WK Score:</span><span class="player_wp_score '+ wkclass+'">'+ wk.toFixed(2) +'</span>');
         }
 
         players.push(player);
