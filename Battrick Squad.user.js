@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Battrick Squad
 // @namespace    https://github.com/webpetal/battrick
-// @version      0.3.1
+// @version      0.4
 // @description  Improve squad page for battrick!
 // @author       Webpetal
 // @match        https://www.battrick.org/nl/squad.asp*
