@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Battrick Squad
 // @namespace    https://github.com/webpetal/battrick
-// @version      0.3
+// @version      0.3.1
 // @description  Improve squad page for battrick!
 // @author       Webpetal
 // @match        https://www.battrick.org/nl/squad.asp*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=battrick.org
-// @updateURL    https://github.com/webpetal/battrick/blob/master/Battrick%20Squad.user.js
-// @downloadURL  https://github.com/webpetal/battrick/blob/master/Battrick%20Squad.user.js
+// @updateURL    https://github.com/webpetal/battrick/raw/master/Battrick%20Squad.user.js
+// @downloadURL  https://github.com/webpetal/battrick/raw/master/Battrick%20Squad.user.js
 // @grant        none
 // @require http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
