@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Battrick Squad
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       You
 // @match        https://www.battrick.org/nl/squad.asp*
@@ -30,6 +30,13 @@
     var cap_exp_weightage = 50; //in percentage. Importance of experience in captain
     var cap_stamina_weightage = 20; //in percentage. Importance of stamina in captain
 
+     //for wicketkeeper
+     var min_wk_score = 10;
+     var wk_sec_weightage = 50; //in percentage. Importance of fielding in wicketkeeper
+     var wk_stamina_weightage = 20; //in percentage. Importance of stamina in wicketkeeper
+     var wk_batting_weightage = 40; //in percentage. Importance of batting in wicketkeeper
+     
+
 
 
 //getting ready according to new sorting
@@ -44,7 +51,7 @@
         'width':'100%'
     });
 // inserting new buttons
-    overallBox.prepend('<div class="wp-newbuttons"><a class="sortbybatsman">Batman</a><a class="sortbybowler">Bowler</a> <a class="sortbyleadership">Captain</a></div>');
+    overallBox.prepend('<div class="wp-newbuttons"><a class="sortbybatsman">Batman</a><a class="sortbybowler">Bowler</a> <a class="sortbyleadership">Captain</a> <a class="sortbywk">WicketKeeper</a></div>');
 
 // getting all players
 
@@ -62,6 +69,8 @@
         var playerconcentration = $(this).find('.player_concentration > a').data('level');
         var playerbowling = $(this).find('.player_bowling > a').data('level');
         var playerconsistency = $(this).find('.player_consistency > a').data('level');
+        var playerkeeper = $(this).find('.player_keeping > a').data('level');
+        var playerfielding = $(this).find('.player_fielding > a').data('level');
 
         //cleaning
         //playerid = playerid.split('_')[1];  not using it to match perfectly
@@ -71,6 +80,7 @@
         var batman = playerbatting + ((bat_sec_weightage/100)*playerconcentration) + ((bat_stamina_weightage/100)*playerstamina) + ((bat_exp_weightage/100)*playerexp);
         var bowler = playerbowling + ((bowl_sec_weightage/100)*playerconsistency) + ((bowl_stamina_weightage/100)*playerstamina) + ((bowl_exp_weightage/100)*playerexp);
         var captain = playerleadership + ((cap_exp_weightage/100)*playerexp) + ((cap_stamina_weightage/100)*playerstamina);
+        var wk = playerkeeper + ((wk_sec_weightage/100)*playerfielding) + ((wk_stamina_weightage/100)*playerstamina) + ((wk_batting_weightage/100)*playerbatting);
 
 
         const player = {
@@ -86,11 +96,14 @@
             player_concentration : playerconcentration,
             player_bowling : playerbowling,
             player_consistency : playerconsistency,
+            player_keeping : playerkeeping,
+            player_fielding :playerfielding,
 
             //calculated value
             player_batman : batman,
             player_bowler : bowler,
             player_captain : captain,
+            player_wk : wk,
 
         }
 
@@ -98,15 +111,18 @@
         var batmanclass = '';
         var bowlerclass = '';
         var captainclass = '';
+        var wkclass = '';
         if(batman > min_batting_score) { batmanclass = 'green'; }
         if(bowler > min_bowling_score) { bowlerclass = 'green'; }
         if(captain > min_captain_score) { captainclass = 'green'; }
+        if(wk > min_wk_score) { wkclass = 'green'; }
 
         if($(this).find('#tip5').length>0) {
             $(this).append('<div id="tip6" class="skills"></div>');
             $(this).find('#tip6').append('<span class="skillname '+ batmanclass+'">Batting Score:</span><span class="player_batting_score '+ batmanclass+'">'+ batman.toFixed(2) +'</span>');
             $(this).find('#tip6').append('<span class="skillname '+ bowlerclass+'">Bowling Score:</span><span class="player_bowling_score '+ bowlerclass+'">'+ bowler.toFixed(2) +'</span>');
             $(this).find('#tip6').append('<span class="skillname '+ captainclass+'">Leadership Score:</span><span class="player_bowling_score '+ captainclass+'">'+ captain.toFixed(2) +'</span>');
+            $(this).find('#tip6').append('<span class="skillname '+ wkclass+'">Wicketkeeper Score:</span><span class="player_wp_score '+ wkclass+'">'+ wk.toFixed(2) +'</span>');
         }
 
         players.push(player);
@@ -133,6 +149,11 @@
         var b_skill = b.player_captain;
         return ((a_skill < b_skill) ? 1 : ((a_skill > b_skill) ? -1 : 0));
     }
+    function sortbywk(a, b){
+        var a_skill = a.player_wk;
+        var b_skill = b.player_wk;
+        return ((a_skill < b_skill) ? 1 : ((a_skill > b_skill) ? -1 : 0));
+    }
 
 
 //click function
@@ -152,6 +173,13 @@
      });
     $( "body" ).on( "click", 'a.sortbyleadership', function() {
         players.sort(sortbyleadership);
+        players.forEach( function(item, index) {
+            var playerid = item['player_id'];
+            $('#'+playerid).css('order', index);
+        });
+     });
+     $( "body" ).on( "click", 'a.sortbywk', function() {
+        players.sort(sortbywk);
         players.forEach( function(item, index) {
             var playerid = item['player_id'];
             $('#'+playerid).css('order', index);
